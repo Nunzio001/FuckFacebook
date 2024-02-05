@@ -11,6 +11,8 @@ import socks
 import socket
 from tqdm import tqdm
 from tabulate import tabulate
+import shutil
+
 
 # Configure the socket to use Tor
 socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 9050)  # 9050 is default Tor port
@@ -22,10 +24,16 @@ for line in banner_lines:
     print(Fore.RED + line + Style.RESET_ALL)
     time.sleep(0.1)
 
+# def get_terminal_width():
+#     """Get the current width of the terminal."""
+#     rows, columns = os.popen('stty size', 'r').read().split()
+#     return int(columns)
+
 def get_terminal_width():
     """Get the current width of the terminal."""
-    rows, columns = os.popen('stty size', 'r').read().split()
-    return int(columns)
+    # shutil.get_terminal_size() returns a tuple (columns, lines)
+    columns, lines = shutil.get_terminal_size(fallback=(80, 20))
+    return columns
 
 def adjust_table_width(table_instance):
     """Ajuste la largeur du tableau en fonction de la largeur du terminal."""
